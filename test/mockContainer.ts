@@ -5,7 +5,7 @@ import Todo from '../src/types';
 
 @injectable()
 class MockTodoClient implements ITodoClient {
-    public fetchData(): Promise<Todo[] | Error> {
+    public async fetchData(): Promise<Todo[] | Error> {
         return new Promise((resolve) => {
             resolve(
                 <Todo[]>[

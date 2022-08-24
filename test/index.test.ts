@@ -11,6 +11,9 @@ describe('Test ApiManager', () => {
             // Unwrapping from the Todo[] | Error union type
             const todos = <Todo[]>response;
             expect(todos.length).toEqual(3);
+
+            let ids = todos.map(({ id }) => id);
+            expect(ids).toEqual([1, 2, 3]);
         });
     })
 
@@ -19,6 +22,8 @@ describe('Test ApiManager', () => {
             // Unwrapping from the Todo | Error union type
             const todo = <Todo>response;
             expect(todo.id).toEqual(123);
+            expect(todo.userId).toEqual(1);
+            expect(todo.title).toEqual('Get Groceries');
         });
     })
 

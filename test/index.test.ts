@@ -18,10 +18,12 @@ describe('Test ApiManager', () => {
     })
 
     it('fetches mocked data by ID', () => {
-        apiManager.fetchTodoById(123).then(response => {
+        const todoId = 123;
+
+        apiManager.fetchTodoById(todoId).then(response => {
             // Unwrapping from the Todo | Error union type
             const todo = <Todo>response;
-            expect(todo.id).toEqual(123);
+            expect(todo.id).toEqual(todoId);
             expect(todo.userId).toEqual(1);
             expect(todo.title).toEqual('Get Groceries');
         });

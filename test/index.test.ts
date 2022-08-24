@@ -1,13 +1,16 @@
 import "reflect-metadata";
 import ApiManager from "../src/apiManager";
+import { TodoClient } from "../src/client";
+import TodoClientContainer from "../src/container";
 import Todo from "../src/types";
 import { MockTodoClient, TestClientContainer } from "./mockContainer";
 
-const apiManager: ApiManager = TestClientContainer.resolve<ApiManager>(ApiManager);
+const mockedApiManager: ApiManager = TestClientContainer.resolve<ApiManager>(ApiManager);
+const apiManager: ApiManager = TodoClientContainer.resolve<ApiManager>(ApiManager);
 
 describe('Test ApiManager', () => {
     it('fetches mocked data from collection', () => {
-        apiManager.fetchData().then(response => {
+        mockedApiManager.fetchData().then(response => {
             // Unwrapping from the Todo[] | Error union type
             const todos = <Todo[]>response;
             expect(todos.length).toEqual(3);
@@ -20,7 +23,7 @@ describe('Test ApiManager', () => {
     it('fetches mocked data by ID', () => {
         const todoId = 123;
 
-        apiManager.fetchTodoById(todoId).then(response => {
+        mockedApiManager.fetchTodoById(todoId).then(response => {
             // Unwrapping from the Todo | Error union type
             const todo = <Todo>response;
             expect(todo.id).toEqual(todoId);
@@ -30,6 +33,10 @@ describe('Test ApiManager', () => {
     })
 
     it('injects the MockTodoClient', () => {
-        expect(apiManager.todoClient).toMatchObject(new MockTodoClient);
+        expect(mockedApiManager.todoClient).toMatchObject(new MockTodoClient);
+    })
+
+    it('injects TodoClient', () => {
+        expect(apiManager.todoClient).toMatchObject(new TodoClient);
     })
 });
